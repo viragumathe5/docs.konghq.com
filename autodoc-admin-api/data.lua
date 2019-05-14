@@ -836,9 +836,10 @@ return {
 
     certificates = {
       description = [[
-        A certificate object represents a public certificate/private key pair for an SSL
-        certificate. These objects are used by Kong to handle SSL/TLS termination for
-        encrypted requests. Certificates are optionally associated with SNI objects to
+        A certificate object represents a public certificate, and can be optionally paired with the
+        corresponding private key. These objects are used by Kong to handle SSL/TLS termination for
+        encrypted requests, or for use as trusted CA store when validating peer certificate of
+        client/service. Certificates are optionally associated with SNI objects to
         tie a cert/key pair to one or more hostnames.
       ]],
       fields = {
@@ -869,7 +870,8 @@ return {
             An array of zero or more hostnames to associate with this
             certificate as SNIs. This is a sugar parameter that will, under the
             hood, create an SNI object and associate it with this certificate
-            for your convenience.
+            for your convenience. To set this attribute this certificate must
+            have a valid private key associated with it.
           ]]
         } },
       },
@@ -894,7 +896,9 @@ return {
         name = { description = [[The SNI name to associate with the given certificate.]] },
         certificate = {
           description = [[
-            The id (a UUID) of the certificate with which to associate the SNI hostname
+            The id (a UUID) of the certificate with which to associate the SNI hostname.
+            Certificate must have a valid private key associated with it to be used
+            by the SNI object.
           ]]
         },
         tags = {
